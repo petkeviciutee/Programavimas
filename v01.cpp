@@ -7,7 +7,7 @@ using namespace std;
 //Struktura
 struct studentas {
     string vardas, pavarde;
-    float paz[7];
+    float paz[15];
     float egz;
     float galutinis;
 };
