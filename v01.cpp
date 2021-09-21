@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -39,7 +37,7 @@ int main ()
                                                cout << "Iveskite "<<i+1<< " -o studento egzamino ivertinima: ";
                                                cin >> grupe[i].egz;
                                               }
-    grupe[i].galutinis = 0.4*sum/7+0.6*grupe[i].egz;
+    grupe[i].galutinis = 0.4*sum/p+0.6*grupe[i].egz;
     }
     cout << setw(15) << "Vardas" << setw(15) << "Pavarde" << setw(15) << "Egzaminas" << setw(15) << "Galutinis" << endl;
     
