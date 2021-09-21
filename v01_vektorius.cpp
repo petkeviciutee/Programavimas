@@ -47,3 +47,15 @@ int main ()
                                                     cin >> grupe[i].egz;}
 
         grupe[i].galutinisvid = grupe[i].tarpinis*0.4+grupe[i].egz*0.6;
+    
+    }
+    
+    
+    cout << setw(15) << "Vardas" << setw(15)<< "Pavarde"<< setw(15) << "Egzaminas" << setw(15) << "Galutinis/vid" <<  endl;
+    for(auto &kint: grupe){
+      
+        cout<<setw(15)<<kint.vardas<<setw(15) <<kint.pavarde << setw(10)<<kint.egz << setw(10)<< setprecision(2)<< kint.galutinisvid << setw(10)<<  endl;
+     
+    }
+return 0;
+}
