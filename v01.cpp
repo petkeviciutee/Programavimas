@@ -14,7 +14,7 @@ struct studentas {
 int main ()
 {
     cout << "Iveskite studentu skaiciu: "<< endl;
-    int n;
+    int n, p;
     cin >> n;
     float sum = 0;
     studentas grupe[n];
