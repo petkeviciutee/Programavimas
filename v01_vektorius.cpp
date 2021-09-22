@@ -2,60 +2,81 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <numeric>
 #include <bits/stdc++.h>
 using namespace std;
 
 struct studentas {
     string vardas, pavarde;
-    vector<int> paz = {0};
+    vector <float> paz = {0};
     int egz;
     float tarpinis;
     float galutinisvid;
     float galutinismed;
-
 };
+
+double Mediana(vector <float> &vec);
+
 int main ()
 {
-    cout << "Iveskite studentu skaiciu: "<< endl;
     int n, p, sk;
+    float sum = 0, laik, vid, med;
+    cout << "Iveskite studentu skaiciu: " << endl;
     cin >> n;
-    float sum = 0;
-    studentas grupe[n];
+    
+    vector <studentas> grupe;
+    studentas laikinas;
+    grupe.reserve(n);
+    
     for (int i = 0; i < n;i++){
         cout << "Iveskite " << i + 1<< "-o studento varda ir pavarde: " << endl;
-        cin >> grupe[i].vardas>>grupe[i].pavarde;
+        cin >> laikinas.vardas >> laikinas.pavarde;
       
-        cout << "Iveskite studento pazymius (kai baigsite, iveskite -1 (minus vienas)):";
-        int counter = 0;
-        do {
-        cin >> sk;
-        grupe[i].paz.push_back(sk);
-          if (grupe[i].paz.at(counter) != -1) { grupe[i].tarpinis = grupe[i].tarpinis + (float)grupe[i].paz.at(counter); }
-        counter++;
+        cout << "Iveskite studento pazymius (kai baigsite iveskite bet kokia raide): "<<endl;
+        while (cin >> laik)
+        {
+          laikinas.paz.push_back(laik);
+          sum+=laik;
         }
-          while (grupe[i].paz.at(counter) != -1);
-          counter--;
-
-        grupe[i].tarpinis = grupe[i].tarpinis / counter;
-        cout << grupe[i].tarpinis << endl;
+        cin.clear();
+        cin.ignore(10000,'\n');
+  
+        cout << "Iveskite " << i + 1 << " -o studento egzamino pazymi: " << endl;
+        cin >> laikinas.egz;
+          if(laikinas.egz < 0 || laikinas.egz > 10) {cout << "ERROR IVEDETE NETINKAMA SKAICIU" << endl;
+                                                     cout << "Iveskite " << i + 1 << " -o studento egzamino ivertinima: " ;
+                                                     cin >> laikinas.egz;}
+        
+        vid = accumulate(laikinas.paz.begin(), laikinas.paz.end(), 0.0)/laikinas.paz.size();
+        med = Mediana(laikinas.paz);
+        
+        laikinas.galutinisvid = vid * 0.4 + laikinas.egz * 0.6;
+        laikinas.galutinismed = med * 0.4 + laikinas.egz * 0.6;
+        grupe.push_back(laikinas);
+        laikinas.paz.clear();
     }
-    for (int i = 0; i < n; i++){
-        cout <<"Iveskite "<< i + 1<<" -o studento egzamino pazymi: ";
-        cin >> grupe[i].egz;
-          if(grupe[i].egz < 0 || grupe[i].egz >10) {cout << "ERROR IVEDETE NETINKAMA SKAICIU" << endl;
-                                                    cout << "Iveskite "<< i + 1<< " -o studento egzamino ivertinima: ";
-                                                    cin >> grupe[i].egz;}
+    
+    
+    cout << setw(15) << "Vardas" << setw(15) << "Pavarde" << setw(15) << "Egzaminas" << setw(15) << "Galutinis(vid)/" << setw(15) << "Galutinis(med)" << endl;
 
-        grupe[i].galutinisvid = grupe[i].tarpinis*0.4+grupe[i].egz*0.6;
-    
-    }
-    
-    
-    cout << setw(15) << "Vardas" << setw(15)<< "Pavarde"<< setw(15) << "Egzaminas" << setw(15) << "Galutinis/vid" <<  endl;
     for(auto &kint: grupe){
       
-        cout<<setw(15)<<kint.vardas<<setw(15) <<kint.pavarde << setw(10)<<kint.egz << setw(10)<< setprecision(2)<< kint.galutinisvid << setw(10)<<  endl;
+        cout<<setw(15)<<kint.vardas<<setw(15) <<kint.pavarde << setw(10)<<kint.egz << setw(10)<< setprecision(2)<< kint.galutinisvid << setw(10) << setprecision(2)<< kint.galutinismed <<  endl;
      
     }
+
+
 return 0;
 }
+//funkcija
+double Mediana(vector <float> &vec){
+  typedef vector<float>::size_type vecSize;
+  vecSize size = vec.size();
+  if (size == 0)
+    throw domain_error("tuscias vektorius");
+  sort(vec.begin(),vec.end());
+  vecSize vid = size/2;
+  return size % 2 == 0 ? (vec[vid] + vec[vid-1]) / 2 : vec[vid];
+}
+
